@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>CRM | متابعة العملاء</title>
+  <meta name="theme-color" content="#1e1e1e">
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22%2C%22short_name%22%3A%22CRM%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f9f6f0%22%2C%22theme_color%22%3A%22%231e1e1e%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%253Ccircle%20cx%3D'50'%20cy%3D'50'%20r%3D'48'%20fill%3D'%23b8860b'%2F%3E%253Ctext%20x%3D'50'%20y%3D'65'%20font-size%3D'50'%20text-anchor%3D'middle'%20fill%3D'%23fff'%20font-family%3D'Arial'%3EC%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22100x100%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #fdfaf5; --surface: #ffffff; --text: #1e1e1e; --text-secondary: #4a4a4a;
+      --gold: #b8860b; --gold-dark: #9c6f0f; --green-light: #dcedc8; --green-mid: #81c784;
+      --green-dark: #2e7d32; --border: #e0d9cc; --shadow: 0 8px 20px rgba(0,0,0,0.05);
+      --hover-gold: #d4a017; --card-bg: #ffffff; --input-bg: #faf8f2; --table-stripe: #fdf9f0;
+    }
+    body.dark {
+      --bg: #1a1a1a; --surface: #2a2a2a; --text: #f0e6d2; --text-secondary: #c0b7a1;
+      --border: #4a3f2f; --shadow: 0 8px 20px rgba(0,0,0,0.4); --card-bg: #2a2a2a;
+      --input-bg: #33312b; --table-stripe: #2e2b24;
+    }
+    body {
+      font-family: 'Segoe UI', 'Cairo', sans-serif; background: var(--bg); color: var(--text);
+      transition: background 0.3s, color 0.3s; min-height: 100vh; padding: 16px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .app-container {
+      max-width: 1200px; width: 100%; background: var(--surface); border-radius: 32px;
+      box-shadow: var(--shadow); padding: 24px 28px; display: flex; flex-direction: column;
+      gap: 24px; transition: background 0.3s;
+    }
+    .header {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+      gap: 16px; border-bottom: 2px solid var(--border); padding-bottom: 16px;
+    }
+    .logo { font-size: 2rem; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    button, .btn {
+      background: transparent; border: 1px solid var(--gold); color: var(--gold);
+      padding: 10px 20px; border-radius: 30px; font-weight: 600; cursor: pointer;
+      transition: all 0.25s ease; background: var(--surface); display: flex;
+      align-items: center; gap: 6px; font-size: 0.9rem;
+    }
+    button:hover, .btn:hover {
+      background: var(--gold); color: white; border-color: var(--gold);
+      transform: translateY(-2px); box-shadow: 0 10px 18px -8px rgba(184,134,11,0.3);
+    }
+    .primary-btn { background: var(--gold); color: white; border: none; }
+    .primary-btn:hover { background: var(--gold-dark); }
+    .secondary-btn { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .secondary-btn:hover { background: var(--border); color: var(--text); }
+    .danger-btn { background: #e53935; color: white; border: none; }
+    .theme-toggle {
+      font-size: 1.4rem; background: transparent; border: none; color: var(--text);
+      cursor: pointer; padding: 8px;
+    }
+    .login-panel { display: flex; flex-direction: column; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    input, select, textarea {
+      background: var(--input-bg); border: 1px solid var(--border); border-radius: 16px;
+      padding: 12px 16px; font-family: inherit; color: var(--text); font-size: 0.95rem; transition: 0.2s;
+    }
+    input:focus, select:focus { outline: 2px solid var(--gold); border-color: transparent; }
+    table {
+      width: 100%; border-collapse: collapse; background: var(--surface);
+      border-radius: 20px; overflow: hidden; box-shadow: var(--shadow);
+    }
+    th { background: var(--gold); color: white; padding: 14px 12px; font-weight: 600; }
+    td {
+      padding: 12px; text-align: center; border-bottom: 1px solid var(--border);
+      background: var(--card-bg);
+    }
+    tr:hover td { background: var(--table-stripe); }
+    .whatsapp-link {
+      color: #25D366; font-weight: bold; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .dashboard-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px; margin: 16px 0;
+    }
+    .stat-card {
+      background: var(--surface); border-radius: 20px; padding: 20px;
+      text-align: center; box-shadow: var(--shadow); border: 1px solid var(--border);
+    }
+    .hidden { display: none !important; }
+    .flex-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .loading-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    .spinner {
+      width: 50px; height: 50px; border: 5px solid var(--gold);
+      border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .message-box {
+      padding: 12px 16px; border-radius: 12px; text-align: center; font-weight: 600;
+      display: none; margin-bottom: 8px;
+    }
+    .message-box.success { background: #c8e6c9; color: #1b5e20; display: block; }
+    .message-box.error { background: #ffcdd2; color: #b71c1c; display: block; }
+    .message-box.info { background: #b3e5fc; color: #01579b; display: block; }
+    .debug-info {
+      font-size: 0.75rem; color: var(--text-secondary); text-align: center;
+      margin-top: 8px; padding: 8px; background: var(--input-bg); border-radius: 8px;
+    }
+    @media print {
+      body { background: white; }
+      .no-print { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loadingOverlay" class="loading-overlay hidden">
+  <div class="spinner"></div>
+</div>
+
+<div class="app-container" id="appContainer">
+  
+  <!-- ==================== شاشة تسجيل الدخول / إنشاء حساب ==================== -->
+  <div id="loginScreen" class="login-panel">
+    <div style="text-align: center; margin-bottom: 8px;">
+      <div class="logo">✨ CRM الذهبي</div>
+      <p style="color: var(--text-secondary);">تسجيل الدخول أو إنشاء حساب جديد</p>
+    </div>
+    
+    <div id="loginMessage" class="message-box"></div>
+    
+    <div class="form-group">
+      <label>👤 اسم المستخدم</label>
+      <input type="text" id="usernameInput" placeholder="أدخل اسم المستخدم" autocomplete="off" autofocus>
+    </div>
+    <div class="form-group">
+      <label>🔒 كلمة المرور</label>
+      <input type="password" id="passwordInput" placeholder="كلمة المرور">
+    </div>
+    
+    <div class="flex-row" style="justify-content: center; gap: 16px;">
+      <button id="loginBtn" class="primary-btn">🔑 دخول</button>
+      <button id="registerBtn" class="secondary-btn">✨ إنشاء حساب جديد</button>
+    </div>
+    
+    <div id="apiStatus" class="debug-info">
+      ⏳ جاري التحقق من الاتصال بالخادم...
+    </div>
+  </div>
+
+  <!-- ==================== اللوحة الرئيسية ==================== -->
+  <div id="mainPanel" class="hidden" style="display: flex; flex-direction: column; gap: 24px;">
+    <div class="header no-print">
+      <div class="logo" style="font-size:1.8rem;">🏆 CRM</div>
+      <div class="actions">
+        <span style="color: var(--text-secondary);">👤 <strong id="currentUserDisplay">...</strong></span>
+        <button id="importBtn" class="btn">📥 استيراد</button>
+        <button id="printBtn" class="btn">🖨️ طباعة</button>
+        <button id="logoutBtn" class="danger-btn">🚪 خروج</button>
+        <span id="themeToggleBtn" class="theme-toggle" title="تغيير الثيم">🌓</span>
+      </div>
+    </div>
+
+    <div class="flex-row no-print" style="justify-content: space-between;">
+      <h3 style="color: var(--gold);">➕ عميل جديد</h3>
+      <span style="font-size:0.8rem; color:var(--text-secondary);">Total: <span id="totalCount">0</span></span>
+    </div>
+    <div class="flex-row no-print" style="gap:12px; flex-wrap: wrap;">
+      <input type="text" id="newName" placeholder="اسم العميل" style="flex:2;">
+      <input type="text" id="newMobile" placeholder="رقم الموبايل" style="flex:2;">
+      <select id="newStatus" style="flex:1;">
+        <option value="first">اول مرة</option>
+        <option value="cold">بارد</option>
+        <option value="hot">ساخن</option>
+        <option value="lead">عميل محتمل</option>
+      </select>
+      <button id="addClientBtn" class="primary-btn">إضافة</button>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table id="clientsTable">
+        <thead>
+           <tr><th>الاسم</th><th>الموبايل</th><th>الحالة</th><th>واتساب</th><th>آخر تواصل</th><th>ملاحظات</th><th>حذف</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="dashboard-cards no-print" id="statsContainer">
+      <div class="stat-card"><strong>📊 الكل</strong><br><span id="statTotal">0</span></div>
+      <div class="stat-card"><strong>🆕 اول مرة</strong><br><span id="statFirst">0</span></div>
+      <div class="stat-card"><strong>❄️ بارد</strong><br><span id="statCold">0</span></div>
+      <div class="stat-card"><strong>🔥 ساخن</strong><br><span id="statHot">0</span></div>
+      <div class="stat-card"><strong>⭐ محتمل</strong><br><span id="statLead">0</span></div>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="importFileInput" accept=".json,application/json" class="hidden">
+
+<script>
+  (function() {
+    // ========== CONFIGURATION ==========
+    // ⚠️ غير الرابط ده بالرابط بتاع Web App بتاعك بعد النشر
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxHcWAB3NjCAlCct68X6V9aVFwLc319aLoUOWDmLNyvLVCKSbfMbV1jEJg7NPd4LOvh/exec';
+    
+    // ⚡ للاختبار: لو عايز تجرب بـ localStorage الأول (بدون GAS)، خليها true
+    const USE_LOCAL_STORAGE_FALLBACK = false;
+    
+    let currentUser = null;
+    let clients = [];
+    let isSaving = false;
+
+    // ========== DOM ==========
+    const loginScreen = document.getElementById('loginScreen');
+    const mainPanel = document.getElementById('mainPanel');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const loginMessage = document.getElementById('loginMessage');
+    const apiStatus = document.getElementById('apiStatus');
+    const usernameInput = document.getElementById('usernameInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const currentUserDisplay = document.getElementById('currentUserDisplay');
+    const themeToggle = document.getElementById('themeToggleBtn');
+    const clientsTableBody = document.querySelector('#clientsTable tbody');
+    const newName = document.getElementById('newName');
+    const newMobile = document.getElementById('newMobile');
+    const newStatus = document.getElementById('newStatus');
+    const addClientBtn = document.getElementById('addClientBtn');
+    const importBtn = document.getElementById('importBtn');
+    const importFileInput = document.getElementById('importFileInput');
+    const printBtn = document.getElementById('printBtn');
+
+    // ========== LOCAL STORAGE FALLBACK ==========
+    function lsGetUsers() {
+      return JSON.parse(localStorage.getItem('crm_users') || '{}');
+    }
+    function lsSaveUsers(users) {
+      localStorage.setItem('crm_users', JSON.stringify(users));
+    }
+    function lsGetClients(username) {
+      const users = lsGetUsers();
+      return users[username]?.clients || [];
+    }
+    function lsSaveClients(username, clientsArr) {
+      const users = lsGetUsers();
+      if (!users[username]) users[username] = { password: '', clients: [] };
+      users[username].clients = clientsArr;
+      lsSaveUsers(users);
+    }
+
+    // ========== LOADING & MESSAGES ==========
+    function showLoading() { loadingOverlay.classList.remove('hidden'); }
+    function hideLoading() { loadingOverlay.classList.add('hidden'); }
+    function showMessage(msg, type) {
+      loginMessage.textContent = msg;
+      loginMessage.className = 'message-box ' + type;
+      setTimeout(() => { loginMessage.className = 'message-box'; }, 5000);
+    }
+    function updateApiStatus(msg, type) {
+      apiStatus.textContent = msg;
+      apiStatus.style.color = type === 'success' ? '#2e7d32' : type === 'error' ? '#b71c1c' : 'inherit';
+    }
+
+    // ========== API CALLS ==========
+    async function apiCall(params) {
+      if (USE_LOCAL_STORAGE_FALLBACK) {
+        // محاكاة محلية للاختبار
+        return mockApiCall(params);
+      }
+      
+      const url = new URL(GAS_URL);
+      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+      
+      console.log('📡 API Call:', params.action, params);
+      
+      try {
+        const response = await fetch(url.toString());
+        const text = await response.text();
+        console.log('📥 Raw Response:', text);
+        
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          throw new Error('Response not JSON: ' + text.substring(0, 100));
+        }
+        
+        console.log('✅ Parsed Response:', data);
+        return data;
+      } catch (err) {
+        console.error('❌ API Error:', err);
+        throw err;
+      }
+    }
+
+    function mockApiCall(params) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const users = lsGetUsers();
+          switch(params.action) {
+            case 'login':
+              if (users[params.username] && users[params.username].password === params.password) {
+                resolve({ success: true });
+              } else {
+                resolve({ success: false, message: 'بيانات خاطئة (localStorage)' });
+              }
+              break;
+            case 'register':
+              if (users[params.username]) {
+                resolve({ success: false, message: 'مستخدم موجود' });
+              } else {
+                users[params.username] = { password: params.password, clients: [] };
+                lsSaveUsers(users);
+                resolve({ success: true, message: 'تم إنشاء الحساب (localStorage)' });
+              }
+              break;
+            case 'getClients':
+              resolve(lsGetClients(params.username));
+              break;
+            case 'saveClients':
+              lsSaveClients(params.username, JSON.parse(params.clients));
+              resolve({ success: true });
+              break;
+            default:
+              resolve({ success: false });
+          }
+        }, 300);
+      });
+    }
+
+    // ========== TEST API CONNECTION ==========
+    async function testConnection() {
+      updateApiStatus('⏳ جاري اختبار الاتصال...', 'info');
+      try {
+        const result = await apiCall({ action: 'login', username: '__test__', password: '__test__' });
+        // أي رد معناه إن الاتصال شغال
+        updateApiStatus('✅ متصل بالخادم بنجاح', 'success');
+        console.log('🔌 Connection test passed');
+      } catch (e) {
+        updateApiStatus('❌ فشل الاتصال بالخادم - شغال offline', 'error');
+        console.error('🔌 Connection test failed:', e);
+      }
+    }
+
+    // ========== LOGIN ==========
+    async function login() {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+      
+      if (!username || !password) {
+        showMessage('أدخل اسم المستخدم وكلمة المرور', 'error');
+        return;
+      }
+      
+      showLoading();
+      try {
+        const result = await apiCall({ action: 'login', username, password });
+        console.log('🔑 Login result:', result);
+        
+        if (result.success) {
+          currentUser = username;
+          currentUserDisplay.textContent = username;
+          loginScreen.classList.add('hidden');
+          mainPanel.classList.remove('hidden');
+          await loadClients();
+          showMessage('', ''); // مسح الرسائل
+        } else {
+          showMessage(result.message || 'بيانات الدخول غير صحيحة', 'error');
+        }
+      } catch (e) {
+        showMessage('فشل الاتصال بالخادم. شوف الـ console.', 'error');
+        console.error(e);
+      }
+      hideLoading();
+    }
+
+    // ========== REGISTER ==========
+    async function register() {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+      
+      if (!username || !password) {
+        showMessage('أدخل اسم المستخدم وكلمة المرور', 'error');
+        return;
+      }
+      
+      if (username.length < 3) {
+        showMessage('اسم المستخدم يجب أن يكون 3 أحرف على الأقل', 'error');
+        return;
+      }
+      
+      if (password.length < 3) {
+        showMessage('كلمة المرور يجب أن تكون 3 أحرف على الأقل', 'error');
+        return;
+      }
+      
+      if (!confirm(`إنشاء حساب جديد:\n\n👤 المستخدم: ${username}\n🔒 كلمة المرور: ${'•'.repeat(password.length)}\n\nهل أنت متأكد؟`)) {
+        return;
+      }
+      
+      showLoading();
+      try {
+        const result = await apiCall({ action: 'register', username, password });
+        console.log('✨ Register result:', result);
+        
+        if (result.success) {
+          showMessage('✅ ' + (result.message || 'تم إنشاء الحساب بنجاح!'), 'success');
+          
+          // ✅ تسجيل الدخول التلقائي بعد إنشاء الحساب
+          setTimeout(async () => {
+            currentUser = username;
+            currentUserDisplay.textContent = username;
+            loginScreen.classList.add('hidden');
+            mainPanel.classList.remove('hidden');
+            clients = [];
+            renderTable();
+            showMessage('', '');
+          }, 500);
+          
+        } else {
+          showMessage('❌ ' + (result.message || 'فشل إنشاء الحساب'), 'error');
+        }
+      } catch (e) {
+        showMessage('فشل الاتصال بالخادم', 'error');
+        console.error(e);
+      }
+      hideLoading();
+    }
+
+    function logout() {
+      if (confirm('هل أنت متأكد من الخروج؟')) {
+        currentUser = null;
+        clients = [];
+        loginScreen.classList.remove('hidden');
+        mainPanel.classList.add('hidden');
+        usernameInput.value = '';
+        passwordInput.value = '';
+        loginMessage.className = 'message-box';
+      }
+    }
+
+    // ========== CLIENTS ==========
+    async function loadClients() {
+      if (!currentUser) return;
+      showLoading();
+      try {
+        const result = await apiCall({ action: 'getClients', username: currentUser });
+        clients = Array.isArray(result) ? result : [];
+        console.log('📋 Loaded clients:', clients.length);
+        renderTable();
+      } catch (e) {
+        alert('فشل تحميل البيانات');
+        console.error(e);
+      }
+      hideLoading();
+    }
+
+    async function saveClients() {
+      if (!currentUser || isSaving) return;
+      isSaving = true;
+      try {
+        const result = await apiCall({
+          action: 'saveClients',
+          username: currentUser,
+          clients: JSON.stringify(clients)
+        });
+        console.log('💾 Save result:', result);
+      } catch (e) {
+        console.error('فشل حفظ البيانات', e);
+      }
+      isSaving = false;
+    }
+
+    function addClient() {
+      const name = newName.value.trim();
+      const mobile = newMobile.value.trim();
+      if (!name || !mobile) return alert('الاسم والموبايل مطلوبان');
+      
+      clients.push({ name, mobile, status: newStatus.value, lastContact: '', notes: '' });
+      newName.value = '';
+      newMobile.value = '';
+      renderTable();
+      saveClients();
+    }
+
+    function deleteClient(index) {
+      if (confirm('هل أنت متأكد من حذف هذا العميل؟')) {
+        clients.splice(index, 1);
+        renderTable();
+        saveClients();
+      }
+    }
+
+    function updateClientField(index, field, value) {
+      if (clients[index]) {
+        clients[index][field] = value;
+        if (field === 'status') renderTable();
+        updateStats();
+        saveClients();
+      }
+    }
+
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"]/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'
+      }[m] || m));
+    }
+
+    function renderTable() {
+      if (!clientsTableBody) return;
+      clientsTableBody.innerHTML = '';
+      
+      if (clients.length === 0) {
+        clientsTableBody.innerHTML = `<tr><td colspan="7" style="padding:24px;color:var(--text-secondary);">لا يوجد عملاء بعد</td></tr>`;
+        updateStats();
+        return;
+      }
+
+      clients.forEach((client, index) => {
+        const row = document.createElement('tr');
+        let nameColor = '';
+        if (client.status === 'hot') nameColor = 'color:#bf360c;';
+        else if (client.status === 'lead') nameColor = 'color:#2e7d32;';
+        else if (client.status === 'cold') nameColor = 'color:#546e7a;';
+        else if (client.status === 'first') nameColor = 'color:#01579b;';
+        
+        const mobile = client.mobile || '';
+        const whatsappUrl = mobile ? `https://wa.me/${mobile.replace(/\D/g,'')}` : '#';
+
+        row.innerHTML = `
+          <td style="font-weight:600;${nameColor}">${escapeHtml(client.name || '')}</td>
+          <td dir="ltr">${escapeHtml(mobile)}</td>
+          <td>
+            <select class="status-select" data-index="${index}">
+              <option value="first" ${client.status==='first'?'selected':''}>اول مرة</option>
+              <option value="cold" ${client.status==='cold'?'selected':''}>بارد</option>
+              <option value="hot" ${client.status==='hot'?'selected':''}>ساخن</option>
+              <option value="lead" ${client.status==='lead'?'selected':''}>محتمل</option>
+            </select>
+          </td>
+          <td><a class="whatsapp-link" href="${whatsappUrl}" target="_blank">💬 واتساب</a></td>
+          <td><input type="date" class="last-contact-input" value="${client.lastContact || ''}" data-index="${index}"></td>
+          <td><textarea class="notes-input" rows="1" data-index="${index}" placeholder="ملاحظات">${escapeHtml(client.notes || '')}</textarea></td>
+          <td><button class="delete-btn" data-index="${index}" style="padding:6px 12px; background:#ffcdd2; color:#b71c1c; border:none; border-radius:8px;">🗑️</button></td>
+        `;
+        clientsTableBody.appendChild(row);
+      });
+
+      document.querySelectorAll('.status-select').forEach(select => {
+        select.addEventListener('change', function() {
+          updateClientField(parseInt(this.dataset.index), 'status', this.value);
+        });
+      });
+      document.querySelectorAll('.last-contact-input').forEach(input => {
+        input.addEventListener('change', function() {
+          updateClientField(parseInt(this.dataset.index), 'lastContact', this.value);
+        });
+      });
+      document.querySelectorAll('.notes-input').forEach(textarea => {
+        textarea.addEventListener('input', function() {
+          updateClientField(parseInt(this.dataset.index), 'notes', this.value);
+        });
+      });
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          deleteClient(parseInt(this.dataset.index));
+        });
+      });
+
+      updateStats();
+    }
+
+    function updateStats() {
+      document.getElementById('totalCount').textContent = clients.length;
+      document.getElementById('statTotal').textContent = clients.length;
+      document.getElementById('statFirst').textContent = clients.filter(c => c.status === 'first').length;
+      document.getElementById('statCold').textContent = clients.filter(c => c.status === 'cold').length;
+      document.getElementById('statHot').textContent = clients.filter(c => c.status === 'hot').length;
+      document.getElementById('statLead').textContent = clients.filter(c => c.status === 'lead').length;
+    }
+
+    function importClients(file) {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (Array.isArray(data)) {
+            clients = [...clients, ...data];
+            renderTable();
+            await saveClients();
+            alert('✅ تم استيراد ' + data.length + ' عميل بنجاح');
+          } else {
+            alert('ملف JSON غير صالح: يجب أن يكون مصفوفة');
+          }
+        } catch (err) {
+          alert('فشل قراءة الملف');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function printPreview() { window.print(); }
+
+    function initTheme() {
+      const saved = localStorage.getItem('crm_theme');
+      if (saved === 'dark') document.body.classList.add('dark');
+    }
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('crm_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    // ========== EVENTS ==========
+    loginBtn.addEventListener('click', login);
+    registerBtn.addEventListener('click', register);
+    passwordInput.addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
+    logoutBtn.addEventListener('click', logout);
+    addClientBtn.addEventListener('click', addClient);
+    themeToggle.addEventListener('click', toggleTheme);
+    importBtn.addEventListener('click', () => importFileInput.click());
+    importFileInput.addEventListener('change', e => {
+      if (e.target.files[0]) importClients(e.target.files[0]);
+      importFileInput.value = '';
+    });
+    printBtn.addEventListener('click', printPreview);
+
+    // ========== INIT ==========
+    initTheme();
+    loginScreen.classList.remove('hidden');
+    mainPanel.classList.add('hidden');
+    
+    // اختبار الاتصال عند التحميل
+    testConnection();
+    
+    // ⚡ دوال للاختبار من الكونسول
+    window.crmDebug = {
+      testConnection,
+      getState: () => ({ currentUser, clients, GAS_URL, USE_LOCAL_STORAGE_FALLBACK }),
+      forceLogin: (u, p) => { usernameInput.value = u; passwordInput.value = p; login(); },
+      forceRegister: (u, p) => { usernameInput.value = u; passwordInput.value = p; register(); },
+      clearAll: () => { localStorage.clear(); location.reload(); }
+    };
+    
+    console.log('🟢 CRM Ready! للاختبار من الكونسول استخدم:');
+    console.log('  crmDebug.testConnection()  - اختبار الاتصال');
+    console.log('  crmDebug.getState()        - عرض الحالة الحالية');
+    console.log('  crmDebug.forceLogin("user","123") - تسجيل دخول سريع');
+    console.log('  crmDebug.forceRegister("test","123") - تسجيل مستخدم جديد');
+  })();
+</script>
+</body>
+</html>
