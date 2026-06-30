@@ -3,806 +3,586 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="theme-color" content="#b8860b">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="CRM الذهبي">
-  <title>CRM الذهبي | متابعة العملاء</title>
-  
-  <!-- PWA Manifest -->
-  <link rel="manifest" href='data:application/manifest+json,{"name":"CRM الذهبي - متابعة العملاء","short_name":"CRM","start_url":".","display":"standalone","background_color":"#fdfaf5","theme_color":"#b8860b","orientation":"portrait","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Ccircle cx=\'256\' cy=\'256\' r=\'240\' fill=\'%23b8860b\'/%3E%3Cpath d=\'M160 200 L256 120 L352 200 L352 380 L160 380 Z\' fill=\'none\' stroke=\'white\' stroke-width=\'20\'/%3E%3Ccircle cx=\'256\' cy=\'260\' r=\'40\' fill=\'white\'/%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"}]}'>
-  
+  <title>CRM | متابعة العملاء</title>
+  <meta name="theme-color" content="#1e1e1e">
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D8%A1%22%2C%22short_name%22%3A%22CRM%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f9f6f0%22%2C%22theme_color%22%3A%22%231e1e1e%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%253Ccircle%20cx%3D'50'%20cy%3D'50'%20r%3D'48'%20fill%3D'%23b8860b'%2F%3E%253Ctext%20x%3D'50'%20y%3D'65'%20font-size%3D'50'%20text-anchor%3D'middle'%20fill%3D'%23fff'%20font-family%3D'Arial'%3EC%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22100x100%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
   <style>
-    /* ========== CSS Variables - Light & Dark ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --bg-gradient: linear-gradient(135deg, #fdfaf5 0%, #f5f0e8 100%);
-      --glass-bg: rgba(255, 255, 255, 0.75);
-      --glass-border: rgba(255, 255, 255, 0.5);
-      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-      --gold: #b8860b;
-      --gold-light: #d4a017;
-      --gold-dark: #8b6508;
-      --text: #1e1e1e;
-      --text-secondary: #5a5a5a;
-      --surface: rgba(255, 255, 255, 0.7);
-      --input-bg: rgba(255, 255, 255, 0.8);
-      --border: rgba(184, 134, 11, 0.2);
-      --card-bg: rgba(255, 255, 255, 0.6);
-      --table-header: linear-gradient(135deg, #b8860b, #8b6508);
-      --hover-bg: rgba(184, 134, 11, 0.08);
-      --status-first: #e3f2fd;
-      --status-first-text: #01579b;
-      --status-cold: #eceff1;
-      --status-cold-text: #455a64;
-      --status-hot: #fff3e0;
-      --status-hot-text: #bf360c;
-      --status-lead: #e8f5e9;
-      --status-lead-text: #1b5e20;
-      --backdrop-blur: blur(20px);
-      --stat-card-bg: rgba(255, 255, 255, 0.7);
+      --bg: #fdfaf5; --surface: #ffffff; --text: #1e1e1e; --text-secondary: #4a4a4a;
+      --gold: #b8860b; --gold-dark: #9c6f0f; --green-light: #dcedc8; --green-mid: #81c784;
+      --green-dark: #2e7d32; --border: #e0d9cc; --shadow: 0 8px 20px rgba(0,0,0,0.05);
+      --hover-gold: #d4a017; --card-bg: #ffffff; --input-bg: #faf8f2; --table-stripe: #fdf9f0;
     }
-
     body.dark {
-      --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      --glass-bg: rgba(30, 30, 50, 0.7);
-      --glass-border: rgba(255, 255, 255, 0.1);
-      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      --text: #f0e6d2;
-      --text-secondary: #b0a890;
-      --surface: rgba(30, 30, 50, 0.6);
-      --input-bg: rgba(40, 40, 60, 0.7);
-      --border: rgba(184, 134, 11, 0.3);
-      --card-bg: rgba(40, 40, 60, 0.5);
-      --table-header: linear-gradient(135deg, #8b6508, #6b4e06);
-      --hover-bg: rgba(184, 134, 11, 0.15);
-      --status-first: rgba(2, 136, 209, 0.2);
-      --status-first-text: #81d4fa;
-      --status-cold: rgba(120, 144, 156, 0.2);
-      --status-cold-text: #b0bec5;
-      --status-hot: rgba(230, 81, 0, 0.2);
-      --status-hot-text: #ffab91;
-      --status-lead: rgba(46, 125, 50, 0.2);
-      --status-lead-text: #a5d6a7;
-      --stat-card-bg: rgba(40, 40, 60, 0.6);
+      --bg: #1a1a1a; --surface: #2a2a2a; --text: #f0e6d2; --text-secondary: #c0b7a1;
+      --border: #4a3f2f; --shadow: 0 8px 20px rgba(0,0,0,0.4); --card-bg: #2a2a2a;
+      --input-bg: #33312b; --table-stripe: #2e2b24;
     }
-
-    /* ========== Base Styles ========== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Segoe UI', 'Cairo', 'Tahoma', sans-serif;
-      background: var(--bg-gradient);
-      color: var(--text);
-      min-height: 100vh;
-      min-height: 100dvh;
-      transition: all 0.4s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px;
-      position: relative;
-      overflow-x: hidden;
+      font-family: 'Segoe UI', 'Cairo', sans-serif; background: var(--bg); color: var(--text);
+      transition: background 0.3s, color 0.3s; min-height: 100vh; padding: 16px;
+      display: flex; flex-direction: column; align-items: center;
     }
-
-    /* خلفية زخرفية */
-    body::before {
-      content: '';
-      position: fixed;
-      top: -50%;
-      right: -50%;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 30% 70%, rgba(184, 134, 11, 0.06) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
+    .app-container {
+      max-width: 1200px; width: 100%; background: var(--surface); border-radius: 32px;
+      box-shadow: var(--shadow); padding: 24px 28px; display: flex; flex-direction: column;
+      gap: 24px; transition: background 0.3s;
     }
-
-    .app-wrapper {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 1100px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    .header {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+      gap: 16px; border-bottom: 2px solid var(--border); padding-bottom: 16px;
     }
-
-    /* ========== Glass Container ========== */
-    .glass-container {
-      background: var(--glass-bg);
-      backdrop-filter: var(--backdrop-blur);
-      -webkit-backdrop-filter: var(--backdrop-blur);
-      border: 1px solid var(--glass-border);
-      border-radius: 24px;
-      box-shadow: var(--glass-shadow);
-      padding: 20px 18px;
-      transition: all 0.4s ease;
+    .logo { font-size: 2rem; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    button, .btn {
+      background: transparent; border: 1px solid var(--gold); color: var(--gold);
+      padding: 10px 20px; border-radius: 30px; font-weight: 600; cursor: pointer;
+      transition: all 0.25s ease; background: var(--surface); display: flex;
+      align-items: center; gap: 6px; font-size: 0.9rem;
     }
-
-    @media (min-width: 768px) {
-      .glass-container {
-        padding: 28px 32px;
-        border-radius: 32px;
-      }
+    button:hover, .btn:hover {
+      background: var(--gold); color: white; border-color: var(--gold);
+      transform: translateY(-2px); box-shadow: 0 10px 18px -8px rgba(184,134,11,0.3);
     }
-
-    /* ========== Header ========== */
-    .app-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 8px;
+    .primary-btn { background: var(--gold); color: white; border: none; }
+    .primary-btn:hover { background: var(--gold-dark); }
+    .secondary-btn { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .secondary-btn:hover { background: var(--border); color: var(--text); }
+    .danger-btn { background: #e53935; color: white; border: none; }
+    .theme-toggle {
+      font-size: 1.4rem; background: transparent; border: none; color: var(--text);
+      cursor: pointer; padding: 8px;
     }
-
-    .logo {
-      font-size: 1.6rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: 2px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .logo-icon {
-      font-size: 2rem;
-      -webkit-text-fill-color: initial;
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    /* ========== Buttons ========== */
-    .btn {
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid var(--gold);
-      color: var(--gold);
-      padding: 10px 16px;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      font-size: 0.85rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-      font-family: inherit;
-    }
-    .btn:hover {
-      background: var(--gold);
-      color: #fff;
-      transform: translateY(-3px);
-      box-shadow: 0 12px 24px -8px rgba(184, 134, 11, 0.4);
-    }
-    .btn:active {
-      transform: translateY(0);
-      box-shadow: 0 4px 8px rgba(184, 134, 11, 0.3);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
-      color: #fff;
-      border: none;
-    }
-    .btn-primary:hover {
-      background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
-    }
-
-    .btn-ghost {
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-    .btn-ghost:hover {
-      background: var(--hover-bg);
-      border-color: var(--gold);
-      color: var(--gold);
-    }
-
-    .btn-icon {
-      width: 44px;
-      height: 44px;
-      padding: 0;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      border: 1px solid var(--border);
-      background: var(--glass-bg);
-      color: var(--text);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .btn-icon:hover {
-      background: var(--gold);
-      color: #fff;
-      border-color: var(--gold);
-    }
-
-    /* ========== Form Elements ========== */
-    .form-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: flex-end;
-    }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      flex: 1;
-      min-width: 120px;
-    }
-    .form-group label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin-right: 4px;
-    }
-
+    .login-panel { display: flex; flex-direction: column; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
     input, select, textarea {
-      background: var(--input-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 12px 14px;
-      font-family: inherit;
-      color: var(--text);
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-      width: 100%;
-      outline: none;
+      background: var(--input-bg); border: 1px solid var(--border); border-radius: 16px;
+      padding: 12px 16px; font-family: inherit; color: var(--text); font-size: 0.95rem; transition: 0.2s;
     }
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.15);
-    }
-    textarea {
-      resize: vertical;
-      min-height: 36px;
-    }
-
-    /* ========== Table ========== */
-    .table-wrapper {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-    }
+    input:focus, select:focus { outline: 2px solid var(--gold); border-color: transparent; }
     table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 750px;
+      width: 100%; border-collapse: collapse; background: var(--surface);
+      border-radius: 20px; overflow: hidden; box-shadow: var(--shadow);
     }
-    th {
-      background: var(--table-header);
-      color: #fff;
-      padding: 14px 10px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      text-align: center;
-      white-space: nowrap;
-    }
+    th { background: var(--gold); color: white; padding: 14px 12px; font-weight: 600; }
     td {
-      padding: 10px 8px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
+      padding: 12px; text-align: center; border-bottom: 1px solid var(--border);
       background: var(--card-bg);
-      font-size: 0.85rem;
-      transition: background 0.2s;
     }
-    tr:hover td {
-      background: var(--hover-bg);
-    }
-
-    .status-badge {
-      display: inline-block;
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-weight: 700;
-      font-size: 0.75rem;
-    }
-    .status-first { background: var(--status-first); color: var(--status-first-text); }
-    .status-cold { background: var(--status-cold); color: var(--status-cold-text); }
-    .status-hot { background: var(--status-hot); color: var(--status-hot-text); }
-    .status-lead { background: var(--status-lead); color: var(--status-lead-text); }
-
+    tr:hover td { background: var(--table-stripe); }
     .whatsapp-link {
-      color: #25D366;
-      font-weight: 700;
-      text-decoration: none;
-      font-size: 1.1rem;
-      transition: transform 0.2s;
-      display: inline-block;
+      color: #25D366; font-weight: bold; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 4px;
     }
-    .whatsapp-link:hover {
-      transform: scale(1.2);
-    }
-
-    .delete-btn {
-      background: rgba(220, 53, 69, 0.1);
-      border: 1px solid rgba(220, 53, 69, 0.3);
-      color: #dc3545;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: all 0.3s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .delete-btn:hover {
-      background: #dc3545;
-      color: #fff;
-      transform: scale(1.1);
-    }
-
-    /* ========== Stats Cards ========== */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 10px;
+    .dashboard-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px; margin: 16px 0;
     }
     .stat-card {
-      background: var(--stat-card-bg);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 16px 10px;
-      text-align: center;
-      transition: all 0.3s ease;
+      background: var(--surface); border-radius: 20px; padding: 20px;
+      text-align: center; box-shadow: var(--shadow); border: 1px solid var(--border);
     }
-    .stat-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.1);
-      border-color: var(--gold);
+    .hidden { display: none !important; }
+    .flex-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .loading-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
     }
-    .stat-card strong {
-      display: block;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-    }
-    .stat-card span {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--gold);
-    }
-
-    /* ========== Login Screen ========== */
-    .login-container {
-      max-width: 420px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .login-container .logo {
-      justify-content: center;
-      font-size: 2.2rem;
-      margin-bottom: 8px;
-    }
-
-    .message-toast {
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      margin: 8px 0;
-      display: none;
-      backdrop-filter: blur(10px);
-    }
-    .message-toast.show { display: block; }
-    .message-toast.success { background: rgba(46, 125, 50, 0.2); color: #2e7d32; border: 1px solid rgba(46,125,50,0.3); }
-    .message-toast.error { background: rgba(220, 53, 69, 0.2); color: #c62828; border: 1px solid rgba(220,53,69,0.3); }
-
-    /* ========== Loading ========== */
-    .loading-spinner {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      border: 3px solid rgba(184,134,11,0.3);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
+    .spinner {
+      width: 50px; height: 50px; border: 5px solid var(--gold);
+      border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    .hidden { display: none !important; }
-
-    /* ========== Responsive ========== */
-    @media (max-width: 600px) {
-      .form-row { flex-direction: column; }
-      .btn { padding: 8px 12px; font-size: 0.8rem; }
-      .logo { font-size: 1.3rem; }
-      th, td { padding: 8px 6px; font-size: 0.75rem; }
+    .message-box {
+      padding: 12px 16px; border-radius: 12px; text-align: center; font-weight: 600;
+      display: none; margin-bottom: 8px;
     }
-
+    .message-box.success { background: #c8e6c9; color: #1b5e20; display: block; }
+    .message-box.error { background: #ffcdd2; color: #b71c1c; display: block; }
+    .message-box.info { background: #b3e5fc; color: #01579b; display: block; }
+    .debug-info {
+      font-size: 0.75rem; color: var(--text-secondary); text-align: center;
+      margin-top: 8px; padding: 8px; background: var(--input-bg); border-radius: 8px;
+    }
     @media print {
-      body { background: white !important; }
-      .no-print { display: none !important; }
-      .glass-container { box-shadow: none; border: 1px solid #ddd; }
-    }
-
-    /* ========== PWA Install Prompt ========== */
-    .install-banner {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--glass-bg);
-      backdrop-filter: blur(25px);
-      border: 1px solid var(--gold);
-      border-radius: 20px;
-      padding: 16px 22px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      z-index: 9999;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-      animation: slideUp 0.5s ease;
-    }
-    @keyframes slideUp {
-      from { transform: translateX(-50%) translateY(100px); opacity: 0; }
-      to { transform: translateX(-50%) translateY(0); opacity: 1; }
+      body { background: white; }
+      .no-print { display: none; }
     }
   </style>
 </head>
 <body>
 
-<div class="app-wrapper">
+<div id="loadingOverlay" class="loading-overlay hidden">
+  <div class="spinner"></div>
+</div>
 
-  <!-- ==================== شاشة تسجيل الدخول ==================== -->
-  <div id="loginScreen" class="glass-container login-container">
-    <div class="logo">
-      <span class="logo-icon">💎</span> CRM الذهبي
+<div class="app-container" id="appContainer">
+  
+  <!-- ==================== شاشة تسجيل الدخول / إنشاء حساب ==================== -->
+  <div id="loginScreen" class="login-panel">
+    <div style="text-align: center; margin-bottom: 8px;">
+      <div class="logo">✨ CRM الذهبي</div>
+      <p style="color: var(--text-secondary);">تسجيل الدخول أو إنشاء حساب جديد</p>
     </div>
-    <p style="color: var(--text-secondary); margin-bottom: 16px;">سجل دخولك أو أنشئ حساب جديد</p>
     
-    <div id="loginMessage" class="message-toast"></div>
+    <div id="loginMessage" class="message-box"></div>
     
-    <div class="form-group" style="margin-bottom: 10px;">
+    <div class="form-group">
       <label>👤 اسم المستخدم</label>
-      <input type="text" id="usernameInput" placeholder="أدخل اسم المستخدم" autocomplete="username">
+      <input type="text" id="usernameInput" placeholder="أدخل اسم المستخدم" autocomplete="off" autofocus>
     </div>
-    <div class="form-group" style="margin-bottom: 16px;">
+    <div class="form-group">
       <label>🔒 كلمة المرور</label>
-      <input type="password" id="passwordInput" placeholder="كلمة المرور" autocomplete="current-password">
+      <input type="password" id="passwordInput" placeholder="كلمة المرور">
     </div>
     
-    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-      <button id="loginBtn" class="btn btn-primary">🔑 دخول</button>
-      <button id="registerBtn" class="btn btn-ghost">✨ حساب جديد</button>
+    <div class="flex-row" style="justify-content: center; gap: 16px;">
+      <button id="loginBtn" class="primary-btn">🔑 دخول</button>
+      <button id="registerBtn" class="secondary-btn">✨ إنشاء حساب جديد</button>
     </div>
-    <p style="font-size:0.7rem; color:var(--text-secondary); margin-top:14px;">
-      بياناتك محفوظة في Google Sheets بشكل آمن
-    </p>
+    
+    <div id="apiStatus" class="debug-info">
+      ⏳ جاري التحقق من الاتصال بالخادم...
+    </div>
   </div>
 
   <!-- ==================== اللوحة الرئيسية ==================== -->
-  <div id="mainPanel" class="hidden">
-    <!-- Header -->
-    <div class="glass-container" style="margin-bottom: 4px;">
-      <div class="app-header">
-        <div class="logo"><span class="logo-icon">💎</span> CRM</div>
-        <div class="header-actions no-print">
-          <span style="color:var(--text-secondary);font-size:0.85rem;">👤 <strong id="currentUserDisplay"></strong></span>
-          <button id="importBtn" class="btn btn-ghost">📥</button>
-          <button id="printBtn" class="btn btn-ghost">🖨️</button>
-          <button id="logoutBtn" class="btn btn-ghost">🚪</button>
-          <span id="themeToggleBtn" class="btn-icon" title="تغيير الثيم">🌓</span>
-        </div>
+  <div id="mainPanel" class="hidden" style="display: flex; flex-direction: column; gap: 24px;">
+    <div class="header no-print">
+      <div class="logo" style="font-size:1.8rem;">🏆 CRM</div>
+      <div class="actions">
+        <span style="color: var(--text-secondary);">👤 <strong id="currentUserDisplay">...</strong></span>
+        <button id="importBtn" class="btn">📥 استيراد</button>
+        <button id="printBtn" class="btn">🖨️ طباعة</button>
+        <button id="logoutBtn" class="danger-btn">🚪 خروج</button>
+        <span id="themeToggleBtn" class="theme-toggle" title="تغيير الثيم">🌓</span>
       </div>
     </div>
 
-    <!-- إضافة عميل -->
-    <div class="glass-container no-print">
-      <div class="form-row">
-        <div class="form-group">
-          <label>اسم العميل</label>
-          <input type="text" id="newName" placeholder="الاسم الكامل">
-        </div>
-        <div class="form-group">
-          <label>رقم الموبايل</label>
-          <input type="text" id="newMobile" placeholder="01xxxxxxxxx">
-        </div>
-        <div class="form-group">
-          <label>الحالة</label>
-          <select id="newStatus">
-            <option value="first">🆕 اول مرة</option>
-            <option value="cold">❄️ بارد</option>
-            <option value="hot">🔥 ساخن</option>
-            <option value="lead">⭐ محتمل</option>
-          </select>
-        </div>
-        <div class="form-group" style="justify-content: flex-end;">
-          <button id="addClientBtn" class="btn btn-primary" style="width:100%;">➕ إضافة</button>
-        </div>
-      </div>
+    <div class="flex-row no-print" style="justify-content: space-between;">
+      <h3 style="color: var(--gold);">➕ عميل جديد</h3>
+      <span style="font-size:0.8rem; color:var(--text-secondary);">Total: <span id="totalCount">0</span></span>
+    </div>
+    <div class="flex-row no-print" style="gap:12px; flex-wrap: wrap;">
+      <input type="text" id="newName" placeholder="اسم العميل" style="flex:2;">
+      <input type="text" id="newMobile" placeholder="رقم الموبايل" style="flex:2;">
+      <select id="newStatus" style="flex:1;">
+        <option value="first">اول مرة</option>
+        <option value="cold">بارد</option>
+        <option value="hot">ساخن</option>
+        <option value="lead">عميل محتمل</option>
+      </select>
+      <button id="addClientBtn" class="primary-btn">إضافة</button>
     </div>
 
-    <!-- جدول العملاء -->
-    <div class="glass-container" style="padding: 12px;">
-      <div class="table-wrapper">
-        <table id="clientsTable">
-          <thead>
-            <tr>
-              <th>الاسم</th><th>الموبايل</th><th>الحالة</th><th>واتساب</th><th>آخر تواصل</th><th>ملاحظات</th><th>حذف</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+    <div style="overflow-x: auto;">
+      <table id="clientsTable">
+        <thead>
+           <tr><th>الاسم</th><th>الموبايل</th><th>الحالة</th><th>واتساب</th><th>آخر تواصل</th><th>ملاحظات</th><th>حذف</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
 
-    <!-- الإحصائيات -->
-    <div class="glass-container no-print">
-      <div class="stats-grid" id="statsContainer">
-        <div class="stat-card"><strong>📊 الكل</strong><span id="totalCount">0</span></div>
-        <div class="stat-card"><strong>🆕 اول مرة</strong><span id="firstCount">0</span></div>
-        <div class="stat-card"><strong>❄️ بارد</strong><span id="coldCount">0</span></div>
-        <div class="stat-card"><strong>🔥 ساخن</strong><span id="hotCount">0</span></div>
-        <div class="stat-card"><strong>⭐ محتمل</strong><span id="leadCount">0</span></div>
-      </div>
+    <div class="dashboard-cards no-print" id="statsContainer">
+      <div class="stat-card"><strong>📊 الكل</strong><br><span id="statTotal">0</span></div>
+      <div class="stat-card"><strong>🆕 اول مرة</strong><br><span id="statFirst">0</span></div>
+      <div class="stat-card"><strong>❄️ بارد</strong><br><span id="statCold">0</span></div>
+      <div class="stat-card"><strong>🔥 ساخن</strong><br><span id="statHot">0</span></div>
+      <div class="stat-card"><strong>⭐ محتمل</strong><br><span id="statLead">0</span></div>
     </div>
   </div>
-</div>
-
-<!-- PWA Install Banner -->
-<div id="installBanner" class="install-banner hidden">
-  <span style="font-size:1.8rem;">📲</span>
-  <div>
-    <strong>تثبيت التطبيق</strong><br>
-    <small style="color:var(--text-secondary);">خلي الوصول أسرع على موبايلك</small>
-  </div>
-  <button id="installBtn" class="btn btn-primary" style="padding:8px 18px;">تثبيت</button>
-  <button id="dismissInstallBtn" class="btn btn-ghost" style="padding:6px 10px;">✕</button>
 </div>
 
 <input type="file" id="importFileInput" accept=".json,application/json" class="hidden">
 
 <script>
   (function() {
-    // ==================== CONFIGURATION ====================
-    // ⚠️ غير الرابط ده بعد نشر Google Apps Script
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbzvhaMfw3EFnBo0m12rRz27b8Ny3FLmMuwyztVHsHyDHcUNcN-aDopL6hSdvn7NiRyF/exec';
+    // ========== CONFIGURATION ==========
+    // ⚠️ غير الرابط ده بالرابط بتاع Web App بتاعك بعد النشر
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxHcWAB3NjCAlCct68X6V9aVFwLc319aLoUOWDmLNyvLVCKSbfMbV1jEJg7NPd4LOvh/exec';
     
-    // ==================== STATE ====================
+    // ⚡ للاختبار: لو عايز تجرب بـ localStorage الأول (بدون GAS)، خليها true
+    const USE_LOCAL_STORAGE_FALLBACK = false;
+    
     let currentUser = null;
     let clients = [];
     let isSaving = false;
-    let deferredPrompt = null;
 
-    // ==================== DOM ====================
-    const $ = (sel) => document.querySelector(sel);
-    const $$ = (sel) => document.querySelectorAll(sel);
+    // ========== DOM ==========
+    const loginScreen = document.getElementById('loginScreen');
+    const mainPanel = document.getElementById('mainPanel');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const loginMessage = document.getElementById('loginMessage');
+    const apiStatus = document.getElementById('apiStatus');
+    const usernameInput = document.getElementById('usernameInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const currentUserDisplay = document.getElementById('currentUserDisplay');
+    const themeToggle = document.getElementById('themeToggleBtn');
+    const clientsTableBody = document.querySelector('#clientsTable tbody');
+    const newName = document.getElementById('newName');
+    const newMobile = document.getElementById('newMobile');
+    const newStatus = document.getElementById('newStatus');
+    const addClientBtn = document.getElementById('addClientBtn');
+    const importBtn = document.getElementById('importBtn');
+    const importFileInput = document.getElementById('importFileInput');
+    const printBtn = document.getElementById('printBtn');
 
-    // ==================== PWA Install ====================
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      $('#installBanner').classList.remove('hidden');
-    });
-
-    $('#installBtn').addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log('Install:', outcome);
-        deferredPrompt = null;
-      }
-      $('#installBanner').classList.add('hidden');
-    });
-
-    $('#dismissInstallBtn').addEventListener('click', () => {
-      $('#installBanner').classList.add('hidden');
-    });
-
-    // ==================== API ====================
-    async function apiCall(params) {
-      const url = new URL(GAS_URL);
-      Object.entries(params).forEach(([k, v]) => url.searchParams.append(k, v));
-      const res = await fetch(url.toString());
-      return res.json();
+    // ========== LOCAL STORAGE FALLBACK ==========
+    function lsGetUsers() {
+      return JSON.parse(localStorage.getItem('crm_users') || '{}');
+    }
+    function lsSaveUsers(users) {
+      localStorage.setItem('crm_users', JSON.stringify(users));
+    }
+    function lsGetClients(username) {
+      const users = lsGetUsers();
+      return users[username]?.clients || [];
+    }
+    function lsSaveClients(username, clientsArr) {
+      const users = lsGetUsers();
+      if (!users[username]) users[username] = { password: '', clients: [] };
+      users[username].clients = clientsArr;
+      lsSaveUsers(users);
     }
 
-    // ==================== Toast Message ====================
+    // ========== LOADING & MESSAGES ==========
+    function showLoading() { loadingOverlay.classList.remove('hidden'); }
+    function hideLoading() { loadingOverlay.classList.add('hidden'); }
     function showMessage(msg, type) {
-      const el = $('#loginMessage');
-      el.textContent = msg;
-      el.className = `message-toast show ${type}`;
-      setTimeout(() => el.classList.remove('show'), 4000);
+      loginMessage.textContent = msg;
+      loginMessage.className = 'message-box ' + type;
+      setTimeout(() => { loginMessage.className = 'message-box'; }, 5000);
+    }
+    function updateApiStatus(msg, type) {
+      apiStatus.textContent = msg;
+      apiStatus.style.color = type === 'success' ? '#2e7d32' : type === 'error' ? '#b71c1c' : 'inherit';
     }
 
-    // ==================== LOGIN / REGISTER ====================
-    async function login() {
-      const username = $('#usernameInput').value.trim();
-      const password = $('#passwordInput').value.trim();
-      if (!username || !password) return showMessage('املأ جميع الحقول', 'error');
+    // ========== API CALLS ==========
+    async function apiCall(params) {
+      if (USE_LOCAL_STORAGE_FALLBACK) {
+        // محاكاة محلية للاختبار
+        return mockApiCall(params);
+      }
       
+      const url = new URL(GAS_URL);
+      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+      
+      console.log('📡 API Call:', params.action, params);
+      
+      try {
+        const response = await fetch(url.toString());
+        const text = await response.text();
+        console.log('📥 Raw Response:', text);
+        
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          throw new Error('Response not JSON: ' + text.substring(0, 100));
+        }
+        
+        console.log('✅ Parsed Response:', data);
+        return data;
+      } catch (err) {
+        console.error('❌ API Error:', err);
+        throw err;
+      }
+    }
+
+    function mockApiCall(params) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const users = lsGetUsers();
+          switch(params.action) {
+            case 'login':
+              if (users[params.username] && users[params.username].password === params.password) {
+                resolve({ success: true });
+              } else {
+                resolve({ success: false, message: 'بيانات خاطئة (localStorage)' });
+              }
+              break;
+            case 'register':
+              if (users[params.username]) {
+                resolve({ success: false, message: 'مستخدم موجود' });
+              } else {
+                users[params.username] = { password: params.password, clients: [] };
+                lsSaveUsers(users);
+                resolve({ success: true, message: 'تم إنشاء الحساب (localStorage)' });
+              }
+              break;
+            case 'getClients':
+              resolve(lsGetClients(params.username));
+              break;
+            case 'saveClients':
+              lsSaveClients(params.username, JSON.parse(params.clients));
+              resolve({ success: true });
+              break;
+            default:
+              resolve({ success: false });
+          }
+        }, 300);
+      });
+    }
+
+    // ========== TEST API CONNECTION ==========
+    async function testConnection() {
+      updateApiStatus('⏳ جاري اختبار الاتصال...', 'info');
+      try {
+        const result = await apiCall({ action: 'login', username: '__test__', password: '__test__' });
+        // أي رد معناه إن الاتصال شغال
+        updateApiStatus('✅ متصل بالخادم بنجاح', 'success');
+        console.log('🔌 Connection test passed');
+      } catch (e) {
+        updateApiStatus('❌ فشل الاتصال بالخادم - شغال offline', 'error');
+        console.error('🔌 Connection test failed:', e);
+      }
+    }
+
+    // ========== LOGIN ==========
+    async function login() {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+      
+      if (!username || !password) {
+        showMessage('أدخل اسم المستخدم وكلمة المرور', 'error');
+        return;
+      }
+      
+      showLoading();
       try {
         const result = await apiCall({ action: 'login', username, password });
+        console.log('🔑 Login result:', result);
+        
         if (result.success) {
           currentUser = username;
-          $('#currentUserDisplay').textContent = username;
-          $('#loginScreen').classList.add('hidden');
-          $('#mainPanel').classList.remove('hidden');
+          currentUserDisplay.textContent = username;
+          loginScreen.classList.add('hidden');
+          mainPanel.classList.remove('hidden');
           await loadClients();
+          showMessage('', ''); // مسح الرسائل
         } else {
-          showMessage(result.message || 'خطأ في البيانات', 'error');
+          showMessage(result.message || 'بيانات الدخول غير صحيحة', 'error');
         }
-      } catch(e) {
-        showMessage('فشل الاتصال بالخادم', 'error');
+      } catch (e) {
+        showMessage('فشل الاتصال بالخادم. شوف الـ console.', 'error');
+        console.error(e);
       }
+      hideLoading();
     }
 
+    // ========== REGISTER ==========
     async function register() {
-      const username = $('#usernameInput').value.trim();
-      const password = $('#passwordInput').value.trim();
-      if (!username || !password) return showMessage('املأ جميع الحقول', 'error');
-      if (username.length < 3 || password.length < 3) return showMessage('3 أحرف على الأقل', 'error');
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
       
+      if (!username || !password) {
+        showMessage('أدخل اسم المستخدم وكلمة المرور', 'error');
+        return;
+      }
+      
+      if (username.length < 3) {
+        showMessage('اسم المستخدم يجب أن يكون 3 أحرف على الأقل', 'error');
+        return;
+      }
+      
+      if (password.length < 3) {
+        showMessage('كلمة المرور يجب أن تكون 3 أحرف على الأقل', 'error');
+        return;
+      }
+      
+      if (!confirm(`إنشاء حساب جديد:\n\n👤 المستخدم: ${username}\n🔒 كلمة المرور: ${'•'.repeat(password.length)}\n\nهل أنت متأكد؟`)) {
+        return;
+      }
+      
+      showLoading();
       try {
         const result = await apiCall({ action: 'register', username, password });
+        console.log('✨ Register result:', result);
+        
         if (result.success) {
-          showMessage('✅ تم إنشاء الحساب! سجل دخولك الآن', 'success');
+          showMessage('✅ ' + (result.message || 'تم إنشاء الحساب بنجاح!'), 'success');
+          
+          // ✅ تسجيل الدخول التلقائي بعد إنشاء الحساب
+          setTimeout(async () => {
+            currentUser = username;
+            currentUserDisplay.textContent = username;
+            loginScreen.classList.add('hidden');
+            mainPanel.classList.remove('hidden');
+            clients = [];
+            renderTable();
+            showMessage('', '');
+          }, 500);
+          
         } else {
-          showMessage(result.message || 'فشل الإنشاء', 'error');
+          showMessage('❌ ' + (result.message || 'فشل إنشاء الحساب'), 'error');
         }
-      } catch(e) {
-        showMessage('فشل الاتصال', 'error');
+      } catch (e) {
+        showMessage('فشل الاتصال بالخادم', 'error');
+        console.error(e);
       }
+      hideLoading();
     }
 
     function logout() {
-      currentUser = null;
-      clients = [];
-      $('#loginScreen').classList.remove('hidden');
-      $('#mainPanel').classList.add('hidden');
-      $('#usernameInput').value = '';
-      $('#passwordInput').value = '';
+      if (confirm('هل أنت متأكد من الخروج؟')) {
+        currentUser = null;
+        clients = [];
+        loginScreen.classList.remove('hidden');
+        mainPanel.classList.add('hidden');
+        usernameInput.value = '';
+        passwordInput.value = '';
+        loginMessage.className = 'message-box';
+      }
     }
 
-    // ==================== CLIENTS ====================
+    // ========== CLIENTS ==========
     async function loadClients() {
       if (!currentUser) return;
+      showLoading();
       try {
-        clients = await apiCall({ action: 'getClients', username: currentUser });
-        clients = Array.isArray(clients) ? clients : [];
+        const result = await apiCall({ action: 'getClients', username: currentUser });
+        clients = Array.isArray(result) ? result : [];
+        console.log('📋 Loaded clients:', clients.length);
         renderTable();
-      } catch(e) { console.error(e); }
+      } catch (e) {
+        alert('فشل تحميل البيانات');
+        console.error(e);
+      }
+      hideLoading();
     }
 
     async function saveClients() {
       if (!currentUser || isSaving) return;
       isSaving = true;
       try {
-        await apiCall({ action: 'saveClients', username: currentUser, clients: JSON.stringify(clients) });
-      } catch(e) { console.error(e); }
+        const result = await apiCall({
+          action: 'saveClients',
+          username: currentUser,
+          clients: JSON.stringify(clients)
+        });
+        console.log('💾 Save result:', result);
+      } catch (e) {
+        console.error('فشل حفظ البيانات', e);
+      }
       isSaving = false;
     }
 
     function addClient() {
-      const name = $('#newName').value.trim();
-      const mobile = $('#newMobile').value.trim();
+      const name = newName.value.trim();
+      const mobile = newMobile.value.trim();
       if (!name || !mobile) return alert('الاسم والموبايل مطلوبان');
-      clients.push({
-        name, mobile,
-        status: $('#newStatus').value,
-        lastContact: '',
-        notes: ''
-      });
-      $('#newName').value = '';
-      $('#newMobile').value = '';
+      
+      clients.push({ name, mobile, status: newStatus.value, lastContact: '', notes: '' });
+      newName.value = '';
+      newMobile.value = '';
       renderTable();
       saveClients();
     }
 
-    function deleteClient(i) {
-      if (!confirm('حذف هذا العميل؟')) return;
-      clients.splice(i, 1);
-      renderTable();
-      saveClients();
+    function deleteClient(index) {
+      if (confirm('هل أنت متأكد من حذف هذا العميل؟')) {
+        clients.splice(index, 1);
+        renderTable();
+        saveClients();
+      }
     }
 
-    function updateField(i, field, value) {
-      if (clients[i]) {
-        clients[i][field] = value;
+    function updateClientField(index, field, value) {
+      if (clients[index]) {
+        clients[index][field] = value;
         if (field === 'status') renderTable();
         updateStats();
         saveClients();
       }
     }
 
-    // ==================== RENDER ====================
-    function esc(text) {
-      return String(text).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
-    }
-
-    function statusClass(s) {
-      return { first:'status-first', cold:'status-cold', hot:'status-hot', lead:'status-lead' }[s] || '';
-    }
-    function statusLabel(s) {
-      return { first:'اول مرة', cold:'بارد', hot:'ساخن', lead:'محتمل' }[s] || s;
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"]/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'
+      }[m] || m));
     }
 
     function renderTable() {
-      const tbody = $('#clientsTable tbody');
-      tbody.innerHTML = '';
-      if (!clients.length) {
-        tbody.innerHTML = '<tr><td colspan="7" style="padding:28px;">لا يوجد عملاء بعد</td></tr>';
+      if (!clientsTableBody) return;
+      clientsTableBody.innerHTML = '';
+      
+      if (clients.length === 0) {
+        clientsTableBody.innerHTML = `<tr><td colspan="7" style="padding:24px;color:var(--text-secondary);">لا يوجد عملاء بعد</td></tr>`;
         updateStats();
         return;
       }
-      clients.forEach((c, i) => {
-        const mobile = c.mobile || '';
-        const wa = mobile ? `https://wa.me/${mobile.replace(/\D/g,'')}` : '#';
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td style="font-weight:700;">${esc(c.name)}</td>
-          <td dir="ltr">${esc(mobile)}</td>
+
+      clients.forEach((client, index) => {
+        const row = document.createElement('tr');
+        let nameColor = '';
+        if (client.status === 'hot') nameColor = 'color:#bf360c;';
+        else if (client.status === 'lead') nameColor = 'color:#2e7d32;';
+        else if (client.status === 'cold') nameColor = 'color:#546e7a;';
+        else if (client.status === 'first') nameColor = 'color:#01579b;';
+        
+        const mobile = client.mobile || '';
+        const whatsappUrl = mobile ? `https://wa.me/${mobile.replace(/\D/g,'')}` : '#';
+
+        row.innerHTML = `
+          <td style="font-weight:600;${nameColor}">${escapeHtml(client.name || '')}</td>
+          <td dir="ltr">${escapeHtml(mobile)}</td>
           <td>
-            <select class="status-select" data-i="${i}" style="padding:6px 8px;font-size:0.8rem;">
-              <option value="first" ${c.status==='first'?'selected':''}>اول مرة</option>
-              <option value="cold" ${c.status==='cold'?'selected':''}>بارد</option>
-              <option value="hot" ${c.status==='hot'?'selected':''}>ساخن</option>
-              <option value="lead" ${c.status==='lead'?'selected':''}>محتمل</option>
+            <select class="status-select" data-index="${index}">
+              <option value="first" ${client.status==='first'?'selected':''}>اول مرة</option>
+              <option value="cold" ${client.status==='cold'?'selected':''}>بارد</option>
+              <option value="hot" ${client.status==='hot'?'selected':''}>ساخن</option>
+              <option value="lead" ${client.status==='lead'?'selected':''}>محتمل</option>
             </select>
           </td>
-          <td><a class="whatsapp-link" href="${wa}" target="_blank" title="واتساب">💬</a></td>
-          <td><input type="date" value="${c.lastContact||''}" data-i="${i}" class="date-input" style="padding:6px;font-size:0.8rem;"></td>
-          <td><textarea data-i="${i}" class="notes-input" rows="1" style="padding:6px;font-size:0.8rem;" placeholder="ملاحظات">${esc(c.notes||'')}</textarea></td>
-          <td><button class="delete-btn" data-i="${i}">🗑️</button></td>
+          <td><a class="whatsapp-link" href="${whatsappUrl}" target="_blank">💬 واتساب</a></td>
+          <td><input type="date" class="last-contact-input" value="${client.lastContact || ''}" data-index="${index}"></td>
+          <td><textarea class="notes-input" rows="1" data-index="${index}" placeholder="ملاحظات">${escapeHtml(client.notes || '')}</textarea></td>
+          <td><button class="delete-btn" data-index="${index}" style="padding:6px 12px; background:#ffcdd2; color:#b71c1c; border:none; border-radius:8px;">🗑️</button></td>
         `;
-        tbody.appendChild(tr);
+        clientsTableBody.appendChild(row);
       });
 
-      // Events
-      $$('.status-select').forEach(s => s.addEventListener('change', function() {
-        updateField(+this.dataset.i, 'status', this.value);
-      }));
-      $$('.date-input').forEach(d => d.addEventListener('change', function() {
-        updateField(+this.dataset.i, 'lastContact', this.value);
-      }));
-      $$('.notes-input').forEach(n => n.addEventListener('input', function() {
-        updateField(+this.dataset.i, 'notes', this.value);
-      }));
-      $$('.delete-btn').forEach(b => b.addEventListener('click', function() {
-        deleteClient(+this.dataset.i);
-      }));
+      document.querySelectorAll('.status-select').forEach(select => {
+        select.addEventListener('change', function() {
+          updateClientField(parseInt(this.dataset.index), 'status', this.value);
+        });
+      });
+      document.querySelectorAll('.last-contact-input').forEach(input => {
+        input.addEventListener('change', function() {
+          updateClientField(parseInt(this.dataset.index), 'lastContact', this.value);
+        });
+      });
+      document.querySelectorAll('.notes-input').forEach(textarea => {
+        textarea.addEventListener('input', function() {
+          updateClientField(parseInt(this.dataset.index), 'notes', this.value);
+        });
+      });
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          deleteClient(parseInt(this.dataset.index));
+        });
+      });
+
       updateStats();
     }
 
     function updateStats() {
-      $('#totalCount').textContent = clients.length;
-      $('#firstCount').textContent = clients.filter(c=>c.status==='first').length;
-      $('#coldCount').textContent = clients.filter(c=>c.status==='cold').length;
-      $('#hotCount').textContent = clients.filter(c=>c.status==='hot').length;
-      $('#leadCount').textContent = clients.filter(c=>c.status==='lead').length;
+      document.getElementById('totalCount').textContent = clients.length;
+      document.getElementById('statTotal').textContent = clients.length;
+      document.getElementById('statFirst').textContent = clients.filter(c => c.status === 'first').length;
+      document.getElementById('statCold').textContent = clients.filter(c => c.status === 'cold').length;
+      document.getElementById('statHot').textContent = clients.filter(c => c.status === 'hot').length;
+      document.getElementById('statLead').textContent = clients.filter(c => c.status === 'lead').length;
     }
 
-    // ==================== IMPORT / PRINT ====================
-    $('#importBtn').addEventListener('click', () => $('#importFileInput').click());
-    $('#importFileInput').addEventListener('change', function() {
-      const file = this.files[0];
-      if (!file) return;
+    function importClients(file) {
       const reader = new FileReader();
       reader.onload = async (e) => {
         try {
@@ -811,37 +591,65 @@
             clients = [...clients, ...data];
             renderTable();
             await saveClients();
-            alert('✅ تم الاستيراد');
+            alert('✅ تم استيراد ' + data.length + ' عميل بنجاح');
+          } else {
+            alert('ملف JSON غير صالح: يجب أن يكون مصفوفة');
           }
-        } catch(ex) { alert('ملف غير صالح'); }
+        } catch (err) {
+          alert('فشل قراءة الملف');
+        }
       };
       reader.readAsText(file);
-      this.value = '';
-    });
-    $('#printBtn').addEventListener('click', () => window.print());
-
-    // ==================== THEME ====================
-    function initTheme() {
-      if (localStorage.getItem('crm_theme') === 'dark') document.body.classList.add('dark');
     }
-    $('#themeToggleBtn').addEventListener('click', () => {
+
+    function printPreview() { window.print(); }
+
+    function initTheme() {
+      const saved = localStorage.getItem('crm_theme');
+      if (saved === 'dark') document.body.classList.add('dark');
+    }
+    function toggleTheme() {
       document.body.classList.toggle('dark');
       localStorage.setItem('crm_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    // ========== EVENTS ==========
+    loginBtn.addEventListener('click', login);
+    registerBtn.addEventListener('click', register);
+    passwordInput.addEventListener('keypress', e => { if (e.key === 'Enter') login(); });
+    logoutBtn.addEventListener('click', logout);
+    addClientBtn.addEventListener('click', addClient);
+    themeToggle.addEventListener('click', toggleTheme);
+    importBtn.addEventListener('click', () => importFileInput.click());
+    importFileInput.addEventListener('change', e => {
+      if (e.target.files[0]) importClients(e.target.files[0]);
+      importFileInput.value = '';
     });
+    printBtn.addEventListener('click', printPreview);
 
-    // ==================== EVENT BINDING ====================
-    $('#loginBtn').addEventListener('click', login);
-    $('#registerBtn').addEventListener('click', register);
-    $('#passwordInput').addEventListener('keypress', e => e.key==='Enter' && login());
-    $('#logoutBtn').addEventListener('click', logout);
-    $('#addClientBtn').addEventListener('click', addClient);
-
-    // ==================== INIT ====================
+    // ========== INIT ==========
     initTheme();
-    $('#loginScreen').classList.remove('hidden');
-    $('#mainPanel').classList.add('hidden');
+    loginScreen.classList.remove('hidden');
+    mainPanel.classList.add('hidden');
+    
+    // اختبار الاتصال عند التحميل
+    testConnection();
+    
+    // ⚡ دوال للاختبار من الكونسول
+    window.crmDebug = {
+      testConnection,
+      getState: () => ({ currentUser, clients, GAS_URL, USE_LOCAL_STORAGE_FALLBACK }),
+      forceLogin: (u, p) => { usernameInput.value = u; passwordInput.value = p; login(); },
+      forceRegister: (u, p) => { usernameInput.value = u; passwordInput.value = p; register(); },
+      clearAll: () => { localStorage.clear(); location.reload(); }
+    };
+    
+    console.log('🟢 CRM Ready! للاختبار من الكونسول استخدم:');
+    console.log('  crmDebug.testConnection()  - اختبار الاتصال');
+    console.log('  crmDebug.getState()        - عرض الحالة الحالية');
+    console.log('  crmDebug.forceLogin("user","123") - تسجيل دخول سريع');
+    console.log('  crmDebug.forceRegister("test","123") - تسجيل مستخدم جديد');
   })();
 </script>
-
 </body>
 </html>
